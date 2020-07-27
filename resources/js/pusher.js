@@ -5,10 +5,16 @@ $(document).ready(function () {
     var user_id = $('#noti-message').data('user');
     var channel = pusher.subscribe('notify-for-admin' + user_id);
     channel.bind('booking-notify', function (data) {
+        let noti = $('#noti-message').data('notification');
+
         $('.noti').prepend(`
             <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item bg-light" data-toggle="modal" data-target="#notiModal"  data-id="${data.id}" data-booking="${data.booking_id}">
-                <i class="fas fa-envelope text-danger mr-2"></i> ${data.user}
+                <p>
+                    <i class="fas fa-envelope text-danger mr-2"></i>
+                    <span class="text-primary">${data.user_name} </span>
+                    ${noti}
+                </p>
             </a>
         `);
         const Toast = Swal.mixin({

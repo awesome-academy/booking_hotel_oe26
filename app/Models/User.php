@@ -79,4 +79,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Notification::class)
             ->withPivot('status');
     }
+
+    public function notification()
+    {
+        return $this->hasOne(Notification::class);
+    }
 }

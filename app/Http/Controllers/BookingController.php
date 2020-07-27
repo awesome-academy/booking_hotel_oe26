@@ -173,6 +173,8 @@ class BookingController extends Controller
             'user_id' => Auth::id(),
             'data' => $data,
         ]);
+        $noti['id'] = $notification->id;
+        $noti['user_name'] = $notification->user->name;
         $options = array(
             'cluster' => 'ap1',
             'encrypted' => true

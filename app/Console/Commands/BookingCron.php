@@ -48,12 +48,20 @@ class BookingCron extends Command
      */
     public function handle()
     {
-        $bookingsWaiting = $this->bookingRepo
-            ->countByStatusThisWeek(config('status.booking_status.waiting'));
-        $bookingsApproved = $this->bookingRepo
-            ->countByStatusThisWeek(config('status.booking_status.approved'));
-        $bookingsCanceled = $this->bookingRepo
-            ->countByStatusThisWeek(config('status.booking_status.canceled'));
+        $now = now();
+        $startOfWeek = now()->startOfWeek();
+
+        $bookings = $this->bookingRepo->getAll();
+
+        $bookingsWaiting = $bookings->where('status', config('status.booking_status.waiting'))
+            ->whereBetween('created_at', [$startOfWeek, $now])
+            ->count();
+        $bookingsApproved = $bookings->where('status', config('status.booking_status.approved'))
+            ->whereBetween('created_at', [$startOfWeek, $now])
+            ->count();
+        $bookingsCanceled = $bookings->where('status', config('status.booking_status.canceled'))
+            ->whereBetween('created_at', [$startOfWeek, $now])
+            ->count();
 
         $bookings = [
             'waiting' => $bookingsWaiting,

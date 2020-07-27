@@ -35,8 +35,10 @@
                                data-id="{{ $notification->id }}"
                                data-booking="{{ json_decode($notification->data)->booking_id }}"
                             >
-                                <i class="fas fa-envelope{{ $notification->pivot->status ? '-open' : ' text-danger' }} mr-2"></i>
-                                {{ json_decode($notification->data)->user }}
+                                <p>
+                                    <i class="fas fa-envelope{{ $notification->pivot->status ? '-open' : ' text-danger' }} mr-2"></i>
+                                    <span class="text-primary">{{ $notification->user->name }}</span> {{ trans('message.notification.newBooking') }}
+                                </p>
                             </a>
                         @endforeach
                     </div>
@@ -85,5 +87,9 @@
         </div>
     </div>
 </div>
-<article id="noti-message"  data-user="{{ Auth::id() }}"  data-message="{{ trans('message.notification.alert') }}">
+<article id="noti-message"
+    data-user="{{ Auth::id() }}"
+    data-message="{{ trans('message.notification.alert') }}"
+    data-notification="{{ trans('message.notification.newBooking') }}"
+>
 </article>
